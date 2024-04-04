@@ -1,5 +1,6 @@
 import json
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from .models import Member
 
 def create_member(request):
@@ -23,3 +24,17 @@ def create_member(request):
         member.save()
         return JsonResponse({'message' : 'success'})
     return JsonResponse({'message' : 'POST 요청만 허용됩니다.'})
+
+def get_member(request, id):
+    if request.method == 'GET':
+        member = get_object_or_404(Member, id=id)
+
+        data = {
+            'id' : member.id,
+            'email' : member.email,
+            'is_leader' : member.is_leader,
+            'hearts' : member.hearts
+        }
+
+        return JsonResponse(data, status=200)
+    return JsonResponse({'message':'GET 요청만 허용됩니다.'})

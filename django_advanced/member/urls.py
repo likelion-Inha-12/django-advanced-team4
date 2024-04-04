@@ -5,4 +5,5 @@ from . import views
 
 urlpatterns = [
     path('create/', views.create_member),
+    path('<int:id>/',views.get_member),
 ]
