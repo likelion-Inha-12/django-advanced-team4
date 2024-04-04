@@ -38,3 +38,19 @@ def get_member(request, id):
 
         return JsonResponse(data, status=200)
     return JsonResponse({'message':'GET 요청만 허용됩니다.'})
+
+def update_member_password(request, id):
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        password = data.get('password')
+        member = get_object_or_404(Member, id=id)
+        member.password = password
+        member.save()
+
+        response_data = {
+            "message": f"id: {id} 회원의 비밀번호가 업데이트되었습니다.",
+            "password": password
+        }
+
+        return JsonResponse(response_data, status=200)
+    return JsonResponse({'message': 'PUT 요청만 허용됩니다.'})
