@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from .models import Member
 
+# 1. 회원 생성 - 김시원
 def create_member(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -25,6 +26,7 @@ def create_member(request):
         return JsonResponse({'message' : 'success'})
     return JsonResponse({'message' : 'POST 요청만 허용됩니다.'})
 
+# 2. 회원 정보 조회 - 김시원
 def get_member(request, id):
     if request.method == 'GET':
         member = get_object_or_404(Member, id=id)
@@ -39,6 +41,7 @@ def get_member(request, id):
         return JsonResponse(data, status=200)
     return JsonResponse({'message':'GET 요청만 허용됩니다.'})
 
+# 3. 회원 정보 수정 - 김시원
 def update_member_password(request, id):
     if request.method == 'PUT':
         data = json.loads(request.body)
