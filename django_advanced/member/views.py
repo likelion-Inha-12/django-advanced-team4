@@ -57,3 +57,27 @@ def update_member_password(request, id):
 
         return JsonResponse(response_data, status=200)
     return JsonResponse({'message': 'PUT 요청만 허용됩니다.'})
+
+# 4. 회원 정보 삭제 - 최우진
+def delete_member(request, id):
+    if request.method=='DELETE':
+        member = get_object_or_404(Member, id=id)
+        member.delete()
+        response_data = {
+            "message": f"id: {id} 회원 정보가 삭제되었습니다."
+        }
+        return JsonResponse(response_data, status=200)
+    return JsonResponse({'message':'DELETE 요청만 허용됩니다.'})
+
+# 5. 하트 누르기 - 최우진
+def add_heart_to_member(request, id):
+    if request.method == 'PATCH':
+        member = get_object_or_404(Member, id=id)
+        member.hearts += 1
+        member.save()
+        response_data = {
+            "message": f"id: {id} 회원의 하트 수가 업데이트되었습니다.",
+            "hearts": member.hearts
+        }
+        return JsonResponse(response_data, status=200)
+    return JsonResponse({'message': 'PATCH 요청만 허용됩니다.'})
